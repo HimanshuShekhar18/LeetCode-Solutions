@@ -26,3 +26,35 @@ public:
         return indexstop;
     }
 };
+
+
+
+// <-------------------------------------------------------------no base value------------------------------------------------------------------>
+class Solution {
+public:
+
+    // Same Approach but without considering any base value;
+    // let base value = 0;
+    // TC: O(n)
+    // SC: O(1)
+
+    int bestClosingTime(string customers) {
+        int currpenality = 0;
+        int minpenality = 0;
+        int indexstop = 0;
+        for(int i = 0; i<customers.size(); i++){
+            if(customers[i]=='Y'){
+                currpenality--;
+            }
+            if(customers[i]=='N') {
+                currpenality++;
+            }
+            if(currpenality<minpenality){
+                indexstop=i+1;
+                minpenality = currpenality;
+            }
+        }
+        return indexstop;
+    }
+};
+
