@@ -38,3 +38,40 @@ public:
         return vect; 
     }
 };
+
+// ---------------------------------------------------------------------------------------
+
+#include<math.h>
+class Solution {
+public:
+
+    // Built_in function Approach
+    // TC: O(n*log(n))
+    // SC: O(n)
+
+    int dp[100010];
+
+    vector<int> countBits(int n) {
+        vector<int> vect;
+        if(n==0) return {0};  // changes done here 
+        int k = (int)log2(n);  // as log function is not defined at 0;
+        
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 1;
+        for(int i=1; i<=k; i++){
+            int ele = (int)pow(2,i);
+            dp[ele] = 1;
+        }
+        for(int i = 3; i<=n; i++){
+            int power2 = (int)pow(2,(int)log2(i));
+            dp[i] = 1+dp[i-power2];
+        }
+        for(int i = 0; i<=n; i++){
+            vect.push_back(dp[i]);
+        }
+
+        return vect;
+        
+    }
+};
