@@ -1,11 +1,10 @@
 class Solution {
 public:
-    /*
-    Since we will visit each n states only once (size of dp) 
-    And we also find substr which takes O(n)
-    The T.C. Reduced to O(n^2) 
-    SC: O(s.length*wordDict.length)
-    */
+   /* Recursion+Memoization
+      Since we will visit each n states only once (size of dp) we also find substr which takes O(n) for each loop run takes O(n)
+      T.C. Reduced to O(n^3) 
+      SC: O(s.length*wordDict.length)
+   */
     int n;
     unordered_set<string> words;
     int dp[301];
