@@ -1,0 +1,35 @@
+class Solution {
+public:
+    /*
+    Since we will visit each n states only once (size of dp) 
+    And we also find substr which takes O(n)
+    The T.C. Reduced to O(n^2) 
+    SC: O(s.length*wordDict.length)
+    */
+    int n;
+    unordered_set<string> words;
+    int dp[301];
+    bool solve(int ind, string &s){
+        if(ind==n){
+            return true;
+        }
+
+        if(dp[ind]!=-1) return dp[ind];
+
+        if(words.find(s.substr(ind,n-ind)) != words.end()) return true;
+
+        for(int l = 1; l<=n-ind; l++){
+            string temp = s.substr(ind,l);
+            if(words.find(temp)!=words.end() && solve(ind+l,s)) return dp[ind]=true;
+        }
+        return dp[ind]=false;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        n = s.length();
+        memset(dp,-1,sizeof(dp));
+        words.insert(wordDict.begin(), wordDict.end());  // for comparison
+        return solve(0,s);
+    }
+};
+
