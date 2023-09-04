@@ -37,7 +37,7 @@ count%3 at each i'th bit position = --> =  1 1 1  = 7 --> ans
 
 
 
-// <-------------------------------------------------------------------------------------------------------------------------------->
+// <-------------------------------------------------------------------- SORTING -------------------------------------------------------------------------->
 
 
 
@@ -66,6 +66,31 @@ public:
 
     }
 };
+
+
+
+// <-----------------------------------------------------------BIT MAGIC--------------------------------------------------------------------------------->
+
+class Solution {
+public:
+// FAST BITMAGIC --> XOR Operations
+// TC: O(n)
+// SC: O(1)
+/*
+add in ones only when not present in twos
+add in twos only when not present in ones
+*/
+    int singleNumber(vector<int>& nums) {
+        int ones = 0;
+        int twos = 0;
+        for(int i = 0; i<nums.size(); i++){
+                ones = (ones^nums[i])&(~twos);
+                twos = (twos^nums[i])&(~ones);
+        }
+        return ones;
+    }
+};
+
 
 
 
