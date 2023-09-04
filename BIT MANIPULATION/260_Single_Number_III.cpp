@@ -32,4 +32,40 @@ SC: O(1)
 };
 
 
+// <----------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+class Solution {
+public:
+
+// SORTING + XOR APPROACH
+// TC: O(n*log(n))
+// SC: O(1) 
+    vector<int> singleNumber(vector<int>& nums) {
+        int first;
+        int second;
+        if(nums.size()==2){
+            return {nums[0],nums[1]};
+        }
+        sort(nums.begin(),nums.end());
+
+        int res = 0;
+        for(auto num: nums){
+            res^=num;
+        }
+
+        int n = nums.size();
+
+        if(nums[0]!=nums[1]) return {nums[0],res^nums[0]};
+
+        if(nums[n-1]!=nums[n-2]) return {nums[n-1],res^nums[n-1]};
+
+        for(int i = 1; i<n-1; i++){
+            if(nums[i]!=nums[i-1] && nums[i]!=nums[i+1]) return {nums[i],res^nums[i]};
+        }
+        return {0};
+    }
+};
+
 
