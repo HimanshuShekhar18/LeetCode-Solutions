@@ -75,3 +75,52 @@ public:
 };
 
 
+
+
+// <------------------------------------------------------------------BUCKET SORT------------------------------------------------------------------------>
+
+
+class Solution {
+public:
+    // BUCKET SORT Approach
+    // TC: O(n)
+    // SC: O(n)
+    unordered_map<string,int> mp;
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        mp.clear();
+        int n = words.size();
+
+        for(auto word: words){
+            mp[word]++;
+        }
+         
+        int maxi = -1;
+        int mini = INT_MIN;
+        vector<set<string>> bucket(n+1);
+        for(auto &m: mp){
+            bucket[m.second].insert(m.first);
+            maxi=max(maxi,m.second);
+            mini = min(mini,m.second);
+        }
+
+        vector<string> ans;
+
+        for(int i = maxi; i>=mini; i--){
+            if(k==0) break;
+                if(bucket[i].size()!=0 && k>0){
+                        for(auto it = bucket[i].begin(); it!=bucket[i].end(); it++){
+                        if(k==0) break;
+                        ans.push_back(*(it));
+                        k--;
+                    }    
+                }
+        }
+        return ans;  
+    }
+};
+
+
+       
+
+
+
