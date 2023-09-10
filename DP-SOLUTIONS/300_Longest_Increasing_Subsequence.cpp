@@ -96,3 +96,33 @@ public:
 
 
 
+// <--------------------------------------------------------------TABULATION+SPACE-OPTIMIZATIN--------------------------------------------------------------->
+
+
+
+class Solution {
+public:
+// TABULATION+SPACE-OPTIMIZATION
+// TC: O(n^2)
+// SC: O(n)
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> currrow(n+1,0);
+        vector<int> nextrow(n+1,0);
+
+        for(int curr = n-1; curr>=0; curr--){
+        for(int prev = curr-1; prev>=-1; prev--){
+        int take = 0;
+        if(prev==-1 || nums[curr]>nums[prev]) take = 1+nextrow[curr+1];
+        int not_take = 0 + nextrow[prev+1];
+        currrow[prev+1]=max(take,not_take);
+        }
+            nextrow = currrow;
+        }
+        return nextrow[-1+1];  
+    }
+};
+
+
+
+
