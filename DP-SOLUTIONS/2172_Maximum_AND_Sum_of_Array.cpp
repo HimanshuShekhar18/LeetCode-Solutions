@@ -312,3 +312,36 @@ int dp[(1<<18)];
 };
 
 
+
+// <------------------------------------------------------------TABULATION+2-BASE SYSTEM + BITMASKING-------------------------------------------------------------------------->
+
+
+class Solution {
+public:
+/* 
+TABULATION + Base-2 System + BITMASKING 
+TC : O(2*numSlots*2^(2*numSlots))
+SC : O(2^(2*numSlots))
+*/
+    int N;
+    int maximumANDSum(vector<int>& nums, int numSlots) {
+        nums.resize(2*numSlots);   // why ? bcoz there is no seperate way of tracking "index" of nums 
+        // so we have to work along with "i" from 0 to 2*numSlots, so we increase the nums array to "later" size 
+        N = 2*numSlots;
+        int dp[(1<<N)];
+        memset(dp,INT_MIN,sizeof(dp));
+        for( int mask = 0; mask < (1<<N); mask++){
+            int howmanyselect = __builtin_popcount(mask);
+            int slot = (howmanyselect+1)/2;
+        for(int i = 0; i<N; i++) {
+            // mask's i-th bit is 1
+            if((mask&(1<<i))) dp[mask]=max(dp[mask],(nums[i]&slot)+dp[mask^(1<<i)]);
+            // mask ka previous/past jo hain --> uss mask ke i'th bit ko 0 kardo
+        }
+        }
+        return dp[(1<<N)-1];
+    }
+};
+
+
+
