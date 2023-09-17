@@ -209,7 +209,106 @@ SC: O(3^numSlots)
 
 
 
+// <--------------------------------------------------------------------BASE-2 SYSTEM-------------------------------------------------------------------------------------->
 
 
+class Solution {
+public:
+/* 
+Approach-2 using BITMASKING
+What does a mask here represents ?
+
+We need to figure out how to define a bit mask in this question.
+I used a mask on base-2, where each slot takes two bits. Basically for each slot from i=1 to i=numSlots a slot is represented by two consecutive bits.
+Bitmask holds the information about which slots are filled and which are not.
+
+For eg : Consider the i-th slot , we represent the slot by two consecutive bits _ _ .
+01 -> means one slot is occupied.
+11 -> means both slots are occupied
+
+TC : O(2*numSlots*n*2^numSlots)
+SC : O(n*2^numSlots)
+*/
+/*
+Wrong Answer
+49 / 84 testcases passed
+
+Input
+nums =
+[14,7,9,8,2,4,11,1,9]
+numSlots =
+8
+
+Output
+54
+Expected
+40
+
+
+REASON --> Tum chutiye ho (mask&(1<<i))==1 kon karta hai yaar; bit check kar rahe na 0 ya 1
+ this is correct --> !(mask&(1<<i))
+*/
+    
+
+int dp[18][(1<<18)];
+    int n;
+    int numbers(vector<int>& nums, int numSlots, int index, int mask){
+        if(index>=n) return 0;
+        if(dp[index][mask]!=-1) return dp[index][mask];               
+        int ans = INT_MIN;
+        for(int i = 0; i<2*numSlots; i++) {
+                if(!(mask&(1<<i))) ans = max(ans,((i/2+1)&nums[index])+numbers(nums,numSlots,index+1,(mask|(1<<i))));
+        }
+        return dp[index][mask] = ans;
+    }
+    int maximumANDSum(vector<int>& nums, int numSlots) {
+        n = nums.size();
+        memset(dp,-1,sizeof(dp));
+        return numbers(nums,numSlots,0,0);
+    }
+};
+
+
+
+
+// <--------------------------------------------------------------------BASE-2 SYSTEM OPTIMIZED -------------------------------------------------------------------------------------->
+
+
+class Solution {
+public:
+/* 
+Same as Previous Base-2 System; But this time with Better Time and Space Complexity
+So what changes you did this time?
+In previous what happening was that a single slot took 2-bits; So what i was doing that i considered both first bit and second bit consecutively but things to keep in mind that ki 
+pehle first bit wala to bhar lo pehle ki atleast ek number bhi hain ki nahi ??
+jab ek number bhi nahi hain to pehle first bit wale pe fill kiya and state change hua jab dubara uss slot pe aaya to 
+check kiya agar ek number hain to now this time to fill second number i.e second bit.
+
+TC : O(numSlots*2^(2*numSlots))
+SC : O(2^(2*numSlots))
+*/
+
+int dp[(1<<18)];
+    int n;
+    int numbers(vector<int>& nums, int numSlots, int index, int mask){
+        if(index>=n) return 0;
+        if(dp[mask]!=-1) return dp[mask];               
+        int ans = INT_MIN;
+        for(int i = 0; i<numSlots; i++) {
+            int z = 2*i;
+                if(!(mask&(1<<z))) ans = max(ans,((i+1)&nums[index])+numbers(nums,numSlots,index+1,(mask|(1<<z))));
+                else {
+                    z++;
+                    if(!(mask&(1<<z))) ans = max(ans,((i+1)&nums[index])+numbers(nums,numSlots,index+1,(mask|(1<<z))));
+                }
+        }
+        return dp[mask] = ans;
+    }
+    int maximumANDSum(vector<int>& nums, int numSlots) {
+        n = nums.size();
+        memset(dp,-1,sizeof(dp));
+        return numbers(nums,numSlots,0,0);
+    }
+};
 
 
