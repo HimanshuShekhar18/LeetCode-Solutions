@@ -46,3 +46,58 @@ class Solution {
 };
 
 
+
+
+// <--------------------------------------------------------------------------TABULATION-------------------------------------------------------------------------------------->
+
+
+class Solution {
+    public:
+    // TABULATION --> from num1.size()-1 to 1;
+    // TC: O(n+n)
+    // SC: O(N+N+N)
+    // So it's simple problem just like take and not_take.
+    /* Good Testcase: [0,4,4,5,9]
+                      [0,1,6,8,10];    elements get swapped at 1st index.
+    */
+    int dp[100010][2];
+
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        //  0 <= nums1[i], nums2[i] <= 2 * 10^5
+        int n = nums1.size();
+        vector<int> num1;
+        num1.push_back(-1);
+        vector<int> num2;
+        num2.push_back(-1);
+        num1.insert(num1.end(),nums1.begin(),nums1.end());
+        num2.insert(num2.end(),nums2.begin(),nums2.end());
+
+        fill_n(&dp[0][0],(100010*2),INT_MAX);
+
+        dp[num1.size()][0] = 0; 
+        dp[num1.size()][1] = 0;
+
+        for(int index = num1.size()-1; index>=1; index--){
+             int prev1 = num1[index-1];
+             int prev2 = num2[index-1];
+                for(int swapped = 0; swapped<=1; swapped++){
+        // catch --> kyuki swap ko to hum vector mein nahi kar sakte but uska track jaroor rakh sakte
+        // ki swap kiya ya nahi taki uss hisab se swapped vector mane !!!!!
+        if(swapped){
+            swap(prev1,prev2);
+        }
+
+        // non-swap
+        if(prev1<num1[index]&&prev2<num2[index]) dp[index][swapped]  = min(dp[index][swapped] ,dp[index+1][0]);
+
+        // swap --> hum swap kar rahe hain strictly increasing banane ke liye
+        if(prev1<num2[index] && prev2<num1[index]) dp[index][swapped]  = min(dp[index][swapped] ,1+dp[index+1][1]);
+            }
+        }
+
+        return dp[1][0];
+    }
+};
+
+
+
