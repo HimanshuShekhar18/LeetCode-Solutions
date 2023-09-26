@@ -199,6 +199,54 @@ class Solution {
 
 
 
+// <---------------------------------------------------------------------TABULATION--------------------------------------------------------------------------------------->
+
+
+class Solution {
+    public:
+    // SPECIAL TABULATION from 
+    // TC: O(n)
+    // SC: O(n)
+    // So it's simple problem just like take and not_take.
+    /* Good Testcase: [0,4,4,5,9]
+                      [0,1,6,8,10];    elements get swapped at 1st index.
+    */
+    int dp[100050][2];
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        //  0 <= nums1[i], nums2[i] <= 2 * 10^5
+        nums1.insert(nums1.begin(),-1);
+        nums2.insert(nums2.begin(),-1);
+        fill_n(&dp[0][0],(100050*2),INT_MAX);
+        dp[0][0]=0; // base case no-swap
+        dp[0][1]=1; // base case swap 
+        for(int index = 1; index<nums1.size(); index++){
+             int prev1 = nums1[index-1];
+             int prev2 = nums2[index-1];
+     
+        // ye upar testcase likha hua hain uska 1st index dekho dono condition true hain
+        // to no-swap karke and swap karke bhi dono dekh lo 
+        if((prev1<nums1[index]&&prev2<nums2[index])  && (prev1<nums2[index] && prev2<nums1[index])){
+            dp[index][0] = min(dp[index-1][0],dp[index-1][1]);  // no swap
+            dp[index][1] = min(dp[index-1][0]+1,dp[index-1][1]+1);
+        } 
+
+        else if(prev1<nums1[index]&&prev2<nums2[index]){
+            dp[index][0] = dp[index-1][0]; // curr not swap and previous also not swapped
+            dp[index][1] = dp[index-1][1]+1; // agar curr wale ko swap karna hain to make sure previous wala swapped ho 
+        } 
+
+        // swap --> hum swap kar rahe hain strictly increasing banane ke liye
+        else{
+                dp[index][1]=dp[index-1][0]+1;  // agar curr wala previous se chota hain to curr wale ko swap kardo or previous as it is rahega 
+                dp[index][0]=dp[index-1][1];    // agar curr wala previous se chota hain to curr wale ko mat swap karo provided previous wala pehle hi swapped hain
+            }
+        }
+
+        return min(dp[nums1.size()-1][0],dp[nums1.size()-1][1]);
+    }
+};
+
+
 
 
 
