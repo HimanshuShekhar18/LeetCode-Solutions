@@ -249,4 +249,59 @@ class Solution {
 
 
 
+// <-----------------------------------------------------------SPACE OPTIMIZATION of 2nd TABULATION---------------------------------------------------------------------->
+
+
+class Solution {
+    public:
+    // SPACE OPTIMIZATION of 2nd TABULATION
+    // TC: O(n)
+    // SC: O(1)
+    // So it's simple problem just like take and not_take.
+    /* Good Testcase: [0,4,4,5,9]
+                      [0,1,6,8,10];    elements get swapped at 1st index.
+    */
+    
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        //  0 <= nums1[i], nums2[i] <= 2 * 10^5
+        nums1.insert(nums1.begin(),-1);
+        nums2.insert(nums2.begin(),-1);
+        vector<int> prev(2,0);
+        vector<int> curr(2,0);
+       
+        prev[0]=0; // base case no-swap
+        prev[1]=1; // base case swap 
+        for(int index = 1; index<nums1.size(); index++){
+             int prev1 = nums1[index-1];
+             int prev2 = nums2[index-1];
+     
+        // ye upar testcase likha hua hain uska 1st index dekho dono condition true hain
+        // to no-swap karke and swap karke bhi dono dekh lo 
+        if((prev1<nums1[index]&&prev2<nums2[index])  && (prev1<nums2[index] && prev2<nums1[index])){
+            curr[0] = min(prev[0],prev[1]);  // no swap
+            curr[1] = min(prev[0]+1,prev[1]+1);
+        } 
+
+        else if(prev1<nums1[index]&&prev2<nums2[index]){
+            curr[0] = prev[0]; // curr not swap and previous also not swapped
+            curr[1] = prev[1]+1; // agar curr wale ko swap karna hain to make sure previous wala swapped ho 
+        } 
+
+        // swap --> hum swap kar rahe hain strictly increasing banane ke liye
+        else{
+                curr[1]=prev[0]+1;  // agar curr wala previous se chota hain to curr wale ko swap kardo or previous as it is rahega 
+                curr[0]=prev[1];    // agar curr wala previous se chota hain to curr wale ko mat swap karo provided previous wala pehle hi swapped hain
+            }
+            prev=curr;
+        }
+
+        return min(prev[0],prev[1]);
+    }
+};
+
+
+
+
+
+
 
