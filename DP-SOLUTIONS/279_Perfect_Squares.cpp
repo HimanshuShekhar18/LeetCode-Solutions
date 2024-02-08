@@ -52,3 +52,34 @@ int dp[100005];
 };
 
 
+
+// <------------------------------------------------------------TABULATION----------------------------------------------------------------------------------->
+
+
+class Solution {
+public:
+
+// TABULATION
+// TC: O(n*sqrt(n))
+// SC: O(n)
+
+long long dp[100005];
+
+    int numSquares(int n) {
+        for(int i = 1; i<=n; i++) dp[i]=INT_MAX;
+        dp[0]=0;
+        for(int i = 1; i<=n; i++){
+        for(int j = 1; j*j<=i; j++){
+            if(dp[i-j*j>=0]){
+                dp[i]=min(dp[i],dp[i-j*j]+1);
+            }
+        }
+    }
+        return dp[n];
+    }
+};
+
+
+
+
+
