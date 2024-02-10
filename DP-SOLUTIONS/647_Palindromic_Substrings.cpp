@@ -113,6 +113,51 @@ iii) for i<j compute dp[i][j]
 
 
 
+// <--------------------------------------------------------TWO POINTER: EXPANDING FROM CENTER------------------------------------------------------------------------>
+
+class Solution {
+public:
+
+/* 
+
+Approach-4 (Smart Approach - Two Pointer: Expanding from Center)
+Idea: For each character and pair of consecutive characters, expand outward to find palindromes.
+Time Complexity (T.C): O(n^2) - Expand around each character or pair of characters in O(n) time.
+Space Complexity (S.C): O(1) - No additional space is used, only a constant amount.
+
+*/
+
+// TC: O(n^2)
+// SC: O(1) 
+
+
+    int solve(int i, int j, string &s){
+        int count = 0;
+
+        while(i>=0 && j<s.size() && s[i]==s[j]){
+            i--;
+            j++;
+            count++;
+        }
+
+        return count;
+    }
+
+    int countSubstrings(string s) {
+        vector<vector<int>> dp(s.size()+1,vector<int> (s.size()+1,-1));
+        int count = 0;
+
+        for(int i = 0; i<s.size(); i++){
+            count+=solve(i,i,s);   // abcba --> odd length expansion
+            count+=solve(i,i+1,s); // abccba --> even length expansion
+        }
+
+        return count;
+    }
+};
+
+
+
 
 
 
