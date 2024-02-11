@@ -159,24 +159,60 @@ Space Complexity (S.C): O(1) - No additional space is used, only a constant amou
 
 
 
+// <----------------------------------------------------------MANACHER's ALGORITHM----------------------------------------------------------------------------->
 
 
 
+class Solution {
+public:
+
+// Manacher's Algorithm
+// TC: O(n)
+// SC: O(n) 
+
+    struct manacher{
+
+        string t;
+        vector<int> p;
+        int count = 0;
+
+        void run_manacher(string s){
+            int n = s.size();
+           
+            p.assign(n,1);
+            int l = 1, r = 1;
+            for(int i = 1; i<n; i++){
+                if(l+r-i>=0) p[i]=max(0,min(r-i,p[l+r-i]));
+
+                while(i-p[i]>=0 && i+p[i]<n && s[i-p[i]]==s[i+p[i]]) p[i]++;
+
+                if(i+p[i]>r){
+                    l=i-p[i];
+                    r=i+p[i];
+                }
+                
+                count+= (p[i]-1)/2;
+            }
+        }
 
 
+        void build(string s){
+            for(auto v: s){
+                t+=string("#")+v;
+            }
+            t+=string("#");
+            run_manacher(t);
+        }
 
+        int ans(){
+            return count;
+        }
 
+    }m;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    int countSubstrings(string s) {
+       
+        m.build(s);
+        return m.ans()+s.size();
+    }
+};
