@@ -4,7 +4,7 @@ public:
 // Boyer Moore Majority Voting Algorithm
 // TC: O(n)
 // SC: O(1)
-   
+      
 
     int majorityElement(vector<int>& nums) {
        int element ;
