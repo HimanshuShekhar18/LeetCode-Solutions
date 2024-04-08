@@ -1,6 +1,9 @@
 class Solution {
 public:
 
+/*
+SIMPLE RECURSION AND BACKTRACKING
+*/
    
     int scores[15] = {0};
 
