@@ -1,5 +1,26 @@
 class Solution {
 public:
+
+/*
+
+Deque Data Structure
+
+deck = {11 13 15 17} 
+
+        17
+     15 17 17×   --->  15 17 
+    13 17 15 17× --->  13 17 15
+ 11 15 13 17 15× --->  11 15 13 17
+
+ Hence 11 15 13 17 is our ans
+
+ TC: O(n*log(n)) + O(n) + O(n)  
+ as insertion and deletion in deque is an O(1) operation
+
+ SC: O(n) + O(n)
+
+*/
+
     vector<int> deckRevealedIncreasing(vector<int>& deck) {
 
         // sort the vector
@@ -7,71 +28,23 @@ public:
 
         int n = deck.size();
 
-        vector<int> vect(n, 0);
+        deque<int> dq;
 
-        int index = 0;  // for navigating the index position of vect
+        vector<int> vect;
 
-        int i = 0;  // for navigating the index position of deck
+        // O(n)
+        for(int i = n-1; i>=0; i--){
 
-        // for odd 
-        if (n % 2 != 0) {
-
-            // fill the starting n/2+1 elements of deck at alternate position
-            for (i = 0; index < deck.size() && i < deck.size() / 2 + 1;
-                 i++) {
-
-                vect[index] = deck[i];
-                index += 2;
-            }
-            index = 1;
-
-        bool skip = true;
-        // rest elements by skipping position(+2) starting at index 3
-        while(i<n){
-
-            if(vect[index]==0){
-
-                if(skip==false){
-                    vect[index]=deck[i];
-                    i++;
-                }
-
-                skip = !skip;
-
+            if(!dq.empty()){
+                dq.push_front(dq.back());
+                dq.pop_back();
             }
 
-            index=(index+2)%n;
+            dq.push_front(deck[i]);
         }
-        }
-        // for even
-         else {
 
-            // fill the starting n/2 elements of deck at alternate position
-            for (i = 0; index < deck.size() && i < deck.size() / 2;
-                 i++) {
-
-                vect[index] = deck[i];
-                index += 2;
-            }
-            index = 1;
-
-        bool skip = false;
-        // rest elements by skipping position(+2) starting at index 1
-        while(i<n){
-
-            if(vect[index]==0){
-
-                if(skip==false){
-                    vect[index]=deck[i];
-                    i++;
-                }
-
-                skip = !skip;
-
-            }
-
-            index=(index+2)%n;
-        }
+        for(auto it: dq){
+            vect.push_back(it);
         }
 
         return vect;
