@@ -69,3 +69,39 @@ public:
     }
 };
 
+
+
+// <---------------------------------------------------------------BIT MANIPULATION----------------------------------------------------------------------------------------------------->
+
+
+class Solution {
+public:
+
+    vector<vector<int>> ans;
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+
+            sort(nums.begin(),nums.end());
+
+            int n = nums.size();
+
+            int M = 1<<n;
+
+            vector<vector<int>> ans(M);
+
+            for(int m = 0; m<M; m++){
+                for(int i = 0; i<n; i++){
+                    if(m & 1<<i) ans[m].push_back(nums[i]);
+                }
+            }     
+
+            sort(ans.begin(),ans.end());
+
+            ans.erase(std::unique(ans.begin(),ans.end()), ans.end());
+
+            return ans;
+    }
+};
+
+
+
