@@ -57,10 +57,9 @@ public:
 
 /*
 
-Khandani Recursion and Backtracking pick and non-pick with conditions while picking 
-
+Sorting and Pick and Non-Pick Recursion and Backtracking with Conditions while Picking 
 TC: O(2^n)
-SC: O(n)
+SC: O(n) 
 
 */
 
@@ -99,6 +98,62 @@ void solve(int index, vector<int>&nums, int k, unordered_map<int,int> &mp){
         return count-1;        
     }
 };
+
+
+
+
+// <------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+
+
+class Solution {
+public:
+
+/*
+
+Sorting and Khandani Recursion and Backtracking pick and non-pick with conditions while picking 
+
+TC: O(2^n)
+SC: O(n)
+
+*/
+
+int count = 0;
+int n;
+
+void solve(int index, vector<int>&nums, int k, unordered_map<int,int> &mp){
+
+    count++;
+
+    for(int i = index; i<n; i++){
+            if(mp[nums[i]-k]==0){
+
+            mp[nums[i]]++;  // do 
+            solve(i+1,nums,k,mp);
+            mp[nums[i]]--;  // backtrack and undo
+        }
+    }
+    
+
+}
+    int beautifulSubsets(vector<int>& nums, int k) {
+
+        n = nums.size();
+
+        sort(nums.begin(),nums.end());
+
+        unordered_map<int,int> mp;
+
+        solve(0,nums,k,mp);
+
+        return count-1;        
+    }
+};
+
+
+
+
+
 
 
 
