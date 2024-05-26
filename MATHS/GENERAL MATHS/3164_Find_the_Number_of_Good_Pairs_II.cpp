@@ -119,4 +119,50 @@ public:
 
 
 
+// <------------------------------------------------------------------------USING THE PROPERTY OF MULTIPLES ( OPTIMIZATION )------------------------------------------------------------------------------->
+
+
+
+class Solution {
+public:
+
+/*
+
+Using Concept of Multiples of nums2[i]*k
+
+TC: O( n * log(n))
+SC: O(n)
+
+*/
+    long long numberOfPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+
+        int n = nums1.size();
+        int m = nums2.size();
+
+        int maxi = *max_element(nums1.begin(),nums1.end());
+
+        unordered_map<long long,long long> mp;
+
+        for(auto num : nums1){
+            mp[num]++;
+        }
+
+        long long count = 0;
+
+        for(int i = 0; i<m; i++){
+            long long  x = nums2[i];
+            x=x*k;
+
+            for(int multiples = x; multiples<=maxi; multiples+=x){
+                    count+= mp.count(multiples) ? mp[multiples] : 0;
+            }
+        }
+
+        return count;        
+    }
+};
+
+
+
+
 
