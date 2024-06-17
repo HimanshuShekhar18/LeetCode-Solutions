@@ -33,3 +33,27 @@ public:
         return false;
     }
 };
+
+
+
+// <-------------------------------------------------------------------------------MATHEMATICAL APPROACH------------------------------------------------------------------------------------------------------------------------------>
+
+
+class Solution {
+public:
+
+    bool judgeSquareSum(int c) {
+        for(int i{}; i*1LL*i<=c; i++){
+            int p = i*1LL*i;
+            if(p>c){
+                return false;
+            }
+            int t = c - p;
+            int root = sqrt(t);
+            if(root*1LL*root==t) return true;
+        }
+        return false;
+    }
+};
+
+
