@@ -1,4 +1,6 @@
 /*
+
+i) Prefix Sum Computation of Indexes of 1s
 i) Maintain a Fixed Size Sliding Window of 'K' 1s  
 ii) Find the Median/Middle '1'  
 iii) Calculate moves to collect all 1s at Mid using Prefix Computation of indexes of 1s  
