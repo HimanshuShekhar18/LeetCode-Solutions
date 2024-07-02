@@ -84,3 +84,45 @@ public:
 };
 
 
+
+// <--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+class Solution {
+public:
+
+/*
+
+What if nums1's size is small compared to nums2's size? Which algorithm is better?
+
+Ans: unordered_map storing frequency of elements of nums1 array only
+
+TC: O(n)
+SC: O(n)
+
+*/
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+
+        unordered_map<int,int> mp;
+
+        for(int i = 0; i<nums1.size(); i++){
+            mp[nums1[i]]++;
+        }
+
+        vector<int> ans;
+
+        for(int i = 0; i<nums2.size(); i++){
+            
+            if(mp.count(nums2[i])){
+
+                ans.push_back(nums2[i]);
+                mp[nums2[i]]--;
+                if(mp[nums2[i]]==0) mp.erase(nums2[i]);
+            }
+        }
+        return ans;
+    }
+};
+
+
+
