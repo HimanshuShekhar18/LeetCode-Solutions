@@ -1,9 +1,9 @@
 class Solution {
 public:
-   /* Recursion+Memoization
-      Since we will visit each n states only once (size of dp) we also find substr which takes O(n) for each loop run takes O(n)
-      T.C.O(n^2) 
-      SC: O(s.length+wordDict.length)
+   /*
+   Recursion+Memoization Top Down
+   T.C. Reduced to O(n^2) 
+   SC: O(s.length+wordDict.length)
    */
     int n;
     unordered_set<string> words;
@@ -33,13 +33,14 @@ public:
 };
 
 
-// <----------------------------------------------------------------------------------------------------------O(n^2)----------------------------------------------------------------------------------------------------------------------------->
+// <--------------------------------------------------------------------------------------------------------- without using substr() ----------------------------------------------------------------------------------------------------------------------------->
 
 class Solution {
 public:
     /*
-    TC: O(n^2) 
-    SC: O(s.length+wordDict.length)
+       Recursion+Memoization without using "substr" instead use push_back()
+      TC: O(n^2) 
+      SC: O(s.length+wordDict.length)
     */
     int n;
     unordered_set<string> words;
