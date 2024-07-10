@@ -71,3 +71,63 @@ public:
 
 
 
+// <-----------------------------------------------------------------------------------------------------DP ON TRIE ( STRING ) --------------------------------------------------------------------------------------------------------->
+
+/*
+DP on TRIE ( STRING )
+TC: O(n + wordDict.length()*wordDict[i]) 
+SC: O(n + wordDict.length()*wordDict[i]) 
+*/
+
+struct Node {
+    Node* letter[26];
+    bool flag = false;
+
+    bool ispresent(char ch) { return letter[ch - 'a'] != NULL; }
+
+    void create(char ch, Node* node) { letter[ch - 'a'] = node; }
+
+    Node* next(char ch) { return letter[ch - 'a']; }
+
+    void setEnd() { flag = true; }
+
+    bool isEnd() { return flag; }
+};
+
+class Solution {
+private:
+    Node* root = new Node();
+
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+
+        for (auto word : wordDict) {
+            Node* node = root;
+            for (int i = 0; i < word.length(); i++) {
+                if (!node->ispresent(word[i])) {
+
+                    node->create(word[i], new Node());
+                }
+                node = node->next(word[i]);
+            }
+            node->setEnd();
+        }
+
+        vector<bool> dp(s.length(), 0);
+
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 || dp[i - 1] == 1) {
+                Node* node = root;
+                for (int j = i; j < s.length(); j++) {
+                    if(!node->ispresent(s[j])) break;
+                    node=node->next(s[j]);
+                    if(node->isEnd()) dp[j]=true;
+                }
+            }
+        }
+
+        return dp[s.length()-1];
+    }
+};
+
+
