@@ -70,3 +70,65 @@ public:
     }
 };
 
+
+
+
+
+// >-----------------------------------------------------------------------------------------------------------BOTTOM UP TABULATION------------------------------------------------------------------------------------------------------------>
+
+
+
+struct Node {
+    Node* letter[26];
+    bool flag = false;
+    int cost = INT_MAX;
+
+    bool ispresent(char ch) { return letter[ch - 'a'] != NULL; }
+
+    void create(char ch, Node* node) { letter[ch - 'a'] = node; }
+
+    Node* next(char ch) { return letter[ch - 'a']; }
+
+    void setEnd() { flag = true; }
+
+    bool isEnd() { return flag; }
+};
+
+class Solution {
+public:
+    Node* root = new Node();
+    int minimumCost(string target, vector<string>& words, vector<int>& costs) {
+        for (int i = 0; i < words.size(); i++) {
+            Node* node = root;
+            for (int j = 0; j < words[i].length(); j++) {
+                if (!node->ispresent(words[i][j])) {
+                    node->create(words[i][j], new Node());
+                }
+                node = node->next(words[i][j]);
+            }
+            node->setEnd();
+            node->cost = min(node->cost, costs[i]);
+        }
+
+        int targetLength = target.size();
+        vector<int> dp(targetLength + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 0; i < targetLength; ++i) {
+            if (dp[i] == INT_MAX) continue;
+            Node* node = root;
+            for (int j = i; j < targetLength; ++j) {
+                if (!node->ispresent(target[j])) break;
+                node = node->next(target[j]);
+                if (node->cost != INT_MAX) {
+                    dp[j + 1] = min(dp[j + 1], dp[i] + node->cost);
+                }
+            }
+        }
+
+        return dp[targetLength] == INT_MAX ? -1 : dp[targetLength];
+    }
+};
+
+
+
+
