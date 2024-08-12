@@ -1,5 +1,14 @@
 class Solution {
 public:
+
+/*
+
+BINARY SEARCH and RABIN KARP DOUBLE HASHING  "set<pair<long long, long long>> st;"
+Using "const int MOD = 1e9+7;"  "int P1 = 31;"  "int P2 = 29;"
+TC: O( n * log(n) ) 
+SC: O(n)
+
+*/
    
     const int MOD = 1000000007;
     int P1 = 31;
@@ -93,5 +102,79 @@ public:
         return result;
     }
 };
+
+
+
+
+
+// <--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+/*
+
+BINARY SEARCH and ROLLING HASH ( REVERSE HASHING )  
+Using "const long long MOD = 1e15;"   and  "int P = 173;"  to Avoid Hash Collisions   
+TC: O(n * log( n ) )  SC: O(n)
+
+*/
+
+
+class Solution {
+public:
+    const long long MOD = 1e15;
+    int P = 173ll;
+    string duplicateStringOfLengthMid(string& s, int mid) {
+        int sp = 0;
+        int ep = mid - 1;
+        int n = s.length();
+        unordered_set<long long> set;
+        long long curr_hash = 0;
+        long long p_pow = 1;
+
+        // ROLLING HASH or REVERSE HASHING
+        for (int i = mid - 1; i >= 0; i--) {
+            curr_hash = (curr_hash + ((s[i] - 'a' + 1) * p_pow)) % MOD;
+            if (i == 0)
+                break;
+            p_pow = (p_pow * P) % MOD;
+        }
+
+        set.insert(curr_hash);
+        sp++;
+        ep++;
+
+        // sliding window
+        while (ep < n) {
+            curr_hash =
+                (curr_hash - ((s[sp - 1] - 'a' + 1) * p_pow) % MOD + MOD) % MOD;
+            curr_hash = (curr_hash * P) % MOD;
+            curr_hash = (curr_hash + (s[ep] - 'a' + 1));
+
+            if (set.find(curr_hash) != set.end())
+                return s.substr(sp, mid);
+            set.insert(curr_hash);
+            sp++;
+            ep++;
+        }
+        return "";
+    }
+    string longestDupSubstring(string s) {
+        string result = "";
+        int left = 0;
+        int right = s.length();
+        // Binary Search
+        while (left <= right) {
+            int mid = right - (right - left) / 2;
+            string ans = duplicateStringOfLengthMid(s, mid);
+            if (ans.length() > 0) {
+                result = ans;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return result;
+    }
+};
+
 
 
