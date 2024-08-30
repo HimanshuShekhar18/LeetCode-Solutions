@@ -4,7 +4,7 @@ public:
 /*
 
 Meet in the Middle, Subsets Sum, Bitmask, and  STL lower_bound 
-O(2^(n/2) ∗ (n/2) * log(n/2) )
+TC: O(2^(n/2) ∗ (n/2) * log(n/2) )
 SC: O( 2^(n/2) )
 where  n  =  nums.length()
 
