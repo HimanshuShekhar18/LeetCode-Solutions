@@ -218,5 +218,62 @@ public:
 
 
 
+// ----------------------------------------------------TABULATION OF IMPLEMENTATION TYPE III ------------------------------------------------------------>
+
+/*
+TABULATION OF Implementation Type III
+2D-DP ( dp[index][mask] ) + BITMASKING + 0/1 Knapsack ( Pick or Non-Pick ) Approach
+TC: O ( 2^m * n )
+SC: O ( 2^m + m )
+*/
+
+class Solution {
+public:
+    
+
+    vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
+        int m = req_skills.size();
+        int n = people.size();
+        vector<vector<long long>> dp(n+1, vector<long long> (1<<m, LLONG_MAX));
+        unordered_map<string, int> mp;
+        for (int i = 0; i < m; i++) {
+            mp[req_skills[i]] = i;
+        }
+        vector<int> people_skill_mask(n, 0);
+        for (int i = 0; i < people.size(); i++) {
+            for (int j = 0; j < people[i].size(); j++) {
+                people_skill_mask[i] |= (1 << mp[people[i][j]]);
+            }
+        }
+    
+        dp[0][0] = 0;
+
+        for(int mask = 0; mask<(1<<m); mask++){
+            for(int index = 1; index<=n; index++){
+                long long ans1 = LLONG_MAX;
+                if (people_skill_mask[index-1] != 0) {  // 0 based tha na
+                  // pick this i'th personp
+                ans1 = dp[index-1][mask & (~people_skill_mask[index-1])]; // 0 based tha na
+                ans1 = ans1 | (1LL<<(index-1)); // 0 based tha na
+                }
+                long long ans2 = dp[index-1][mask];
+                dp[index][mask]=min(dp[index][mask], (__builtin_popcountll(ans1) < __builtin_popcountll(ans2))? ans1: ans2);
+            }
+        }
+
+        long long result = dp[n][(1<<m)-1];
+        vector<int> final_ans;
+        for (int i = 0; i < n; i++) {
+            if (result & (1LL << i))
+                final_ans.push_back(i);
+        }
+        return final_ans;
+    }
+};
+
+
+
+
+
 
 
