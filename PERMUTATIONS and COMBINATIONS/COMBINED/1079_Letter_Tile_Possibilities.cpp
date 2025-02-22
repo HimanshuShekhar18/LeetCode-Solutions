@@ -1,7 +1,7 @@
 /*
 Combinations and Permutations
 Generate all Combinations and then apply Permutation on each Combination  
-TC: O( n* 2^n  * n * log(n) )   
+TC: O( n*  ( 2^n  + n * log(n) )  
 SC: O( n * 2^n ) 
 
 Be Careful of Edge Cases eg: CDC Combinations are C, D, CC, CD, DC, CDC; 
